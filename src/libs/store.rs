@@ -1,78 +1,46 @@
-//! Web socket hooks.
+use std::str;
 
-use std::cell::RefCell;
-use std::rc::Rc;
-
-use futures::stream::SplitSink;
-use futures::{SinkExt, StreamExt};
-use gloo_net::websocket;
-use gloo_net::websocket::futures::WebSocket;
-use gloo_net::websocket::WebSocketError;
+use super::ws::use_web_socket;
 use js_sys::wasm_bindgen::JsError;
 use sycamore::prelude::*;
 use sycamore_futures::spawn_local_scoped;
+use serde_json::value::{to_value, Value};
+use serde::{Serialize, Deserialize};
+use anyhow::Result;
 
-pub use gloo_net::websocket::Message;
+#[derive(Serialize, Deserialize)]
+pub struct Layout {
+    pub kind: String,
+    pub data: String,
+    pub item: Option<Box<Layout>>,
+    pub children: Option<Box<Layout>>
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Empty;
+
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "action")]
+pub enum Message {
+    Layout,
+}
+
 
 #[derive(Clone, Copy)]
-pub struct WebSocketHandle {
-    ws_write: Signal<Rc<RefCell<SplitSink<WebSocket, Message>>>>,
-    state: Signal<websocket::State>,
-    message: Signal<String>,
-    message_bytes: Signal<Vec<u8>>,
+pub struct Store {
+    pub layout: ReadSignal<String>,
 }
 
-/// Opens a web socket connection at the specified `url`. The connection is closed when the enclosing scope is destroyed
-/// or when [`WebSocketHandle::close`] is called.
-pub fn use_web_socket(url: &str) -> Result<WebSocketHandle, JsError> {
-    let state = create_signal(websocket::State::Closed);
-    let message = create_signal(String::new());
-    let message_bytes = create_signal(Vec::new());
+pub fn use_store(url: &str) -> Result<Store, JsError> {
+    let ws = use_web_socket(url)?;
+    let layout = move || {
+        // let x = d.message();
+        // serde_json::from_str::<Message>(&x).unwrap_or_else(|_| Empty{})
+        ws.message()
+    };
+    //let x = std::str::from_utf8(d.message_bytes().try_into())?;
 
-    let ws = WebSocket::open(url)?;
-    let (write, mut read) = ws.split();
-
-
-    spawn_local_scoped(async move {
-        while let Some(next) = read.next().await {
-            if let Ok(m) = next {
-                match m {
-                    Message::Text(t) => message.set(t),
-                    Message::Bytes(b) => message_bytes.set(b),
-                }
-            }
-        }
-    });
-
-    Ok(WebSocketHandle {
-        ws_write: create_signal(Rc::new(RefCell::new(write))),
-        state,
-        message,
-        message_bytes,
+    Ok(Store {
+        layout: ws.message(),
     })
-}
-
-impl WebSocketHandle {
-    // TODO: solve this issue
-    #[allow(clippy::await_holding_refcell_ref)]
-    pub async fn send(self, message: Message) -> Result<(), WebSocketError> {
-        self.ws_write.get_clone().borrow_mut().send(message).await
-    }
-
-    pub fn state(self) -> ReadSignal<websocket::State> {
-        *self.state
-    }
-
-    pub fn message(self) -> ReadSignal<String> {
-        *self.message
-    }
-
-    pub fn message_bytes(self) -> ReadSignal<Vec<u8>> {
-        *self.message_bytes
-    }
-
-    /// NOTE: Not yet implemented due to technical reasons.
-    pub fn close(self) {
-        unimplemented!();
-    }
 }
