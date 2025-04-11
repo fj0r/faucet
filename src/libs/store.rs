@@ -7,17 +7,7 @@ use sycamore_futures::spawn_local_scoped;
 use serde_json::value::{to_value, Value};
 use serde::{Serialize, Deserialize};
 use anyhow::Result;
-
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub struct Layout {
-    pub kind: String,
-    pub data: Option<String>,
-    pub item: Option<Vec<Box<Layout>>>,
-    pub children: Option<Vec<Box<Layout>>>
-}
-
-#[derive(Clone, Serialize, Deserialize)]
-pub struct Empty;
+use super::data::{Layout, Empty};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(tag = "action")]

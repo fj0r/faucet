@@ -1,6 +1,7 @@
 use sycamore::prelude::*;
 mod libs;
 use libs::{store::use_store, ws::use_web_socket};
+use libs::components::*;
 
 #[component]
 fn App() -> View {
@@ -18,6 +19,7 @@ fn App() -> View {
     let l = r.layout.get_clone();
     view! {
         div(class="f v") {
+            Layout {}
             h1 { "Hello, world!" }
             p { "This is my first Sycamore app" }
             p { (signal) }
