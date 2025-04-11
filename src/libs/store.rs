@@ -1,6 +1,6 @@
 use std::str;
 
-use super::ws::use_web_socket;
+use super::{ws::use_web_socket};
 use js_sys::wasm_bindgen::JsError;
 use sycamore::prelude::*;
 use sycamore_futures::spawn_local_scoped;
@@ -34,3 +34,4 @@ pub fn use_store(url: &str) -> Result<Store, JsError> {
         layout: *layout
     })
 }
+

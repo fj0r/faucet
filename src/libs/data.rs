@@ -28,4 +28,3 @@ pub struct Layout {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Empty;
 
-
