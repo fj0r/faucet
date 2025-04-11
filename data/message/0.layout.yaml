@@ -1,12 +1,11 @@
 action: layout
-layout:
-    type: box
-    children:
-        - type: header
-          title: test
-        - type: scroll
-          data: chat
-          item:
-              type: card
-        - type: input
-          data: message
+kind: box
+children:
+    - kind: header
+      title: test
+    - kind: scroll
+      data: chat
+      item:
+          kind: card
+    - kind: input
+      data: message

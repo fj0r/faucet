@@ -15,7 +15,7 @@ fn App() -> View {
         console_log!("start: {s}");
     });
 
-    let l = r.layout;
+    let l = r.layout.get_clone();
     view! {
         div(class="f v") {
             h1 { "Hello, world!" }
@@ -23,7 +23,7 @@ fn App() -> View {
             p { (signal) }
             button(on:click=move |_| signal.set(signal.get() + 1)) { "+1" }
             p { "--" }
-            p { (l) }
+            p { (l.kind) }
         }
     }
 }
