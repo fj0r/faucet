@@ -6,6 +6,6 @@ children:
     - kind: scroll
       data: chat
       item:
-          kind: card
+          - kind: card
     - kind: input
       data: message

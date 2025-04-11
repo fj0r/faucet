@@ -10,7 +10,7 @@ use serde::{Serialize, Deserialize};
 pub struct Layout {
     pub kind: String,
     pub data: Option<String>,
-    pub item: Option<Box<Layout>>,
+    pub item: Option<Vec<Box<Layout>>>,
     pub children: Option<Vec<Box<Layout>>>
 }
 
@@ -41,9 +41,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     {
       "kind": "scroll",
       "data": "chat",
-      "item": {
-        "kind": "card"
-      }
+      "item": [
+        {
+          "kind": "card"
+        }
+      ]
     },
     {
       "kind": "input",

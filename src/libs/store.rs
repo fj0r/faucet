@@ -12,7 +12,7 @@ use anyhow::Result;
 pub struct Layout {
     pub kind: String,
     pub data: Option<String>,
-    pub item: Option<Box<Layout>>,
+    pub item: Option<Vec<Box<Layout>>>,
     pub children: Option<Vec<Box<Layout>>>
 }
 
