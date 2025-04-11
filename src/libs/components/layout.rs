@@ -1,7 +1,11 @@
 use sycamore::prelude::*;
+use super::super::data::Layout;
 
-#[component]
-pub fn Layout() -> View {
+#[component(inline_props)]
+pub fn Layout(layout: ReadSignal<Layout>) -> View {
+    create_effect(move || {
+        console_log!("{layout:?}");
+    });
     view!{
         ""
     }

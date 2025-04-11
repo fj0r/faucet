@@ -19,7 +19,7 @@ fn App() -> View {
     let l = r.layout.get_clone();
     view! {
         div(class="f v") {
-            Layout {}
+            Layout(layout=r.layout) {}
             h1 { "Hello, world!" }
             p { "This is my first Sycamore app" }
             p { (signal) }
