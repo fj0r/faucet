@@ -1,12 +1,11 @@
 use sycamore::prelude::*;
 use super::super::data::Layout;
+use super::Dynamic;
 
 #[component(inline_props)]
 pub fn Layout(layout: ReadSignal<Layout>) -> View {
-    let k = move || layout.get_clone().kind;
+    let k = create_memo(move || layout.get_clone().kind);
     view!{
-        div(class="ss") {
-            (k)
-        }
+        Dynamic(kind=k) { "" }
     }
 }

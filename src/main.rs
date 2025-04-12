@@ -9,10 +9,10 @@ fn App() -> View {
     let r = use_store(url).expect("connecting failed");
 
 
-    let signal = create_signal(1);
+    let count = create_signal(1);
 
     create_effect(move || {
-        let s = signal.get();
+        let s = count.get();
         console_log!("start: {s}");
     });
 
@@ -21,8 +21,8 @@ fn App() -> View {
             Layout(layout=r.layout) {}
             h1 { "Hello, world!" }
             p { "This is my first Sycamore app" }
-            p { (signal) }
-            button(on:click=move |_| signal.set(signal.get() + 1)) { "+1" }
+            (count)
+            button(on:click=move |_| count.set(count.get() + 1)) { "+1" }
             p { "--" }
         }
     }

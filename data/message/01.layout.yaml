@@ -1,11 +1,11 @@
 action: layout
-kind: box
+kind: Input
 children:
-    - kind: header
+    - kind: Text
       title: test
-    - kind: scroll
+    - kind: Container
       data: chat
       item:
-          - kind: card
-    - kind: input
+          - kind: Card
+    - kind: Input
       data: message
