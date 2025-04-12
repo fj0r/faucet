@@ -18,7 +18,7 @@ fn App() -> View {
 
     view! {
         div(class="f v") {
-            Layout(layout=r.layout) {}
+            Frame(layout=r.layout) {}
             h1 { "Hello, world!" }
             p { "This is my first Sycamore app" }
             (count)
