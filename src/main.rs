@@ -16,7 +16,6 @@ fn App() -> View {
         console_log!("start: {s}");
     });
 
-    let l = r.layout.get_clone();
     view! {
         div(class="f v") {
             Layout(layout=r.layout) {}
@@ -25,7 +24,6 @@ fn App() -> View {
             p { (signal) }
             button(on:click=move |_| signal.set(signal.get() + 1)) { "+1" }
             p { "--" }
-            p { (l.kind) }
         }
     }
 }
