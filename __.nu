@@ -25,5 +25,6 @@ export def 'send message' [file:string@cmpl-data] {
 }
 
 export def 'ui init' [] {
-    send message 0.layout.yaml
+    send message 00.layout.yaml
+    send message 01.layout.yaml
 }

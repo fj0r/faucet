@@ -1,14 +1,14 @@
 use sycamore::prelude::*;
 use super::super::data::Layout;
 
-#[component]
+#[component(inline_props)]
 pub fn Input() -> View {
     view!{
-        ""
+        "INPUT"
     }
 }
 
-#[component]
+#[component(inline_props)]
 pub fn Text() -> View {
     view!{
         ""
@@ -16,7 +16,7 @@ pub fn Text() -> View {
 }
 
 
-#[component]
+#[component(inline_props)]
 pub fn Card() -> View {
     view!{
         ""

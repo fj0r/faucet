@@ -23,10 +23,10 @@ pub fn Dynamic(attributes: Attributes, children: Children, kind: ReadSignal<Stri
         let k = kind.get_clone();
         match k.as_str() {
             "Container" => view!( div { "Container" } ),
-            "Input" => view! ( div { "input" } ),
+            "Input" => view! ( Input() ),
             "Text" => view! ( div { "Text" } ),
             "Card" => view! ( div { "Card" } ),
-            _ => view! { div { (format!("{} unimplemented!", &kind)) } },
+            _ => view! { div { (format!("[{}] unimplemented!", &kind)) } },
         }
     };
     view! {
